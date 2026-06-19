@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
 import { MONGO_URI } from '../config';
+import { connect, disconnect } from '../config/database';
 import { User } from '../models/user';
 import { Team } from '../models/team';
 import { Activity } from '../models/activity';
@@ -9,7 +9,7 @@ import { LeaderboardEntry } from '../models/leaderboard';
 // Seed the octofit_db database with test data
 async function seed() {
   console.log('Seed the octofit_db database with test data');
-  await mongoose.connect(MONGO_URI);
+  await connect();
 
   await Promise.all([
     User.deleteMany({}),
@@ -55,7 +55,7 @@ async function seed() {
   ]);
 
   console.log(`Inserted ${users.length} users, ${teams.length} teams, ${activities.length} activities, ${workouts.length} workouts, ${leaderboard.length} leaderboard entries.`);
-  await mongoose.disconnect();
+  await disconnect();
   console.log('Seed complete.');
 }
 
